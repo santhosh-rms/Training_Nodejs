@@ -1,10 +1,123 @@
-// // var http =require('http');
-// // http.createServer(function(req,res){
-// //     res.writeHead(200,{'Content-type':'text/plain'});
-// //     res.write("Welcome All");
-// //     res.end("Thank You")
-// // }).listen(5000);
+var express = require('express');
+var app = express();
+var Employee = require('./src/model/employee');
+require('./src/db/mongoose')
+var port = 8080;
 
+app.use(express.json());
+app.use(express.urlencoded({
+  extended: true
+}));
+
+app.get('/', function(req, res) {
+  res.send('happy to be here');
+});
+
+app.get('/employees', function(req, res) {
+  console.log('getting all employees');
+  Employee.find({})
+    .exec(function(err, employees) {
+      if(err) {
+        res.send('error occured')
+      } else {
+        console.log(employees);
+        res.json(employees);
+      }
+    });
+});
+
+app.get('/employees/:id', function(req, res) {
+  console.log('getting all employees');
+  Employee.findOne({
+    _id: req.params.id
+    })
+    .exec(function(err, employees) {
+      if(err) {
+        res.send('error occured')
+      } else {
+        console.log(employees);
+        res.json(employees);
+      }
+    });
+});
+
+app.post('/employee', function(req, res) {
+  var newEmployee = new Employee();
+
+  newEmployee.name = req.body.name;
+  newEmployee.role = req.body.role;
+  newEmployee.phoneNumber = req.body.phoneNumber;
+
+  newEmployee.save(function(err, employee) {
+    if(err) {
+      res.send('error saving employee');
+    } else {
+      console.log(employee);
+      res.send(employee);
+    }
+  });
+});
+
+app.post('/employee2', function(req, res) {
+  Employee.create(req.body, function(err, employee) {
+    if(err) {
+      res.send('error saving employee');
+    } else {
+      console.log(employee);
+      res.send(employee);
+    }
+  });
+});
+
+app.put('/employee/:id', function(req, res) {
+  Employee.findOneAndUpdate({
+    _id: req.params.id
+    },
+    { $set: { name: req.body.name }
+  }, {upsert: true}, function(err, newEmployee) {
+    if (err) {
+      res.send('error updating ');
+    } else {
+      console.log(newEmployee);
+      res.send(newEmployee);
+    }
+  });
+});
+
+app.delete('/employee/:id', function(req, res) {
+  Employee.findOneAndRemove({
+    _id: req.params.id
+  }, function(err, employee) {
+    if(err) {
+      res.send('error removing')
+    } else {
+      console.log(employee);
+      res.status(204);
+    }
+  });
+});
+
+app.listen(port, function() {
+  console.log('app listening on port ' + port);
+});
+// var http =require('http');
+// http.createServer(function(req,res){
+//     res.writeHead(200,{'Content-type':'text/plain'});
+//     res.write("Welcome All");
+//     res.end("Thank You")
+// }).listen(5000);
+
+// const express = require('express')
+// const app = express()
+// const port = 5000
+
+// app.get('/', (req, res) => {
+//   res.send('Hello World!')
+// })
+
+// app.listen(port, () => {
+//   console.log(`Example app listening at http://localhost:${port}`)
+// })
 // // const http = require('http');
 
 // // const server = http.createServer((req, res) => {
@@ -54,18 +167,18 @@
 //   );
 // });
 
-// server.listen(1010);
+// server.listen(5000);
 
 
-var mongo = require('mongodb').MongoClient;
-var url ='mongodb://localhost:27017';
-mongo.connect(url,function(err,db){
-  if(err) throw err;
-  var dbmy =db.db('employee');
-  var mydata = [{empName:'vijay',webSite:'www.sample1.com'},{empName:'ravi',webSite:'www.sample2.com'}];
-  dbmy.collection('empDetails').insertMany(mydata,function(err,res){
-    if(err) throw err;
-    console.log("doc inserted")
-    db.close();
-  });
-});
+// var mongo = require('mongodb').MongoClient;
+// var url ='mongodb://localhost:27017';
+// mongo.connect(url,function(err,db){
+//   if(err) throw err;
+//   var dbmy =db.db('employee');
+//   var mydata = [{empName:'raj',webSite:'www.sample1.com'},{empName:'akash',webSite:'www.sample2.com'}];
+//   dbmy.collection('empDetails').insertMany(mydata,function(err,res){
+//     if(err) throw err;
+//     console.log("doc inserted")
+//     db.close();
+//   });
+// });
