@@ -1,4 +1,3 @@
-'use strict';
 const express = require('express');
 const router = express.Router();
 const {
@@ -16,6 +15,6 @@ router.route('/').get((req, res) => {
 router.route('/employees').get(getEmployeeDetails);
 router.route('/employees/:id').get(getEmployeeDetailsPassingID);
 router.route('/employee').post(postEmployeeDetails);
-router.route('/employee').put(updateEmployeeDetails);
+router.route('/employee/:id').put(updateEmployeeDetails);
 router.route('/employees/:id').delete(deleteEmployeeDetails);
 module.exports = { router };

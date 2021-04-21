@@ -1,9 +1,8 @@
 var express = require('express');
 var app = express();
 
-const routes = require('./src/router/Router');
-require('./src/db/mongoose');
-var port = 8080;
+const routes = require('./src/router/router');
+require('./src/db/connector');
 
 app.use(express.json());
 app.use(
@@ -13,9 +12,7 @@ app.use(
 );
 
 //Router
-
 app.use('/', routes.router);
-
-app.listen(port, function () {
-  console.log('app listening on port ' + port);
+app.listen(process.env.PORT, function () {
+  console.log('app listening on port ' + process.env.PORT);
 });

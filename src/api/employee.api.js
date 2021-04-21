@@ -1,96 +1,67 @@
 var Employee = require('../model/employee');
+var { OK, INTERNAL_SERVER_ERROR, BAD_REQUEST } = require('http-status-codes');
 
 const getEmployeeDetails = async (req, res) => {
   try {
-    Employee.find({}).exec(function (err, employees) {
-      if (err) {
-        res.send('error occured');
-      } else {
-        console.log(employees);
-        res.json(employees);
-      }
+    await Employee.find({}).exec((err, employees) => {
+      return res.send(OK, employees);
     });
-    res.status(200);
   } catch (err) {
-    res.status(500);
+    res.sendStatus(INTERNAL_SERVER_ERROR);
   }
 };
 
 const getEmployeeDetailsPassingID = async (req, res) => {
   try {
-    console.log('getting all employees');
-    Employee.findOne({
+    await Employee.findOne({
       _id: req.params.id,
-    }).exec(function (err, employees) {
-      if (err) {
-        res.send('error occured');
-      } else {
-        console.log(employees);
-        res.json(employees);
-        res.status(200);
-      }
+    }).exec((err, employees) => {
+      return res.send(OK, employees);
     });
   } catch (err) {
-    res.status(500);
+    res.sendStatus(INTERNAL_SERVER_ERROR);
   }
 };
 
 const postEmployeeDetails = async (req, res) => {
   try {
-    var newEmployee = new Employee();
+    var newEmployee = await new Employee();
     newEmployee.name = req.body.name;
     newEmployee.role = req.body.role;
     newEmployee.phoneNumber = req.body.phoneNumber;
-    newEmployee.save(function (err, employee) {
-      if (err) {
-        res.send('error saving employee');
-      } else {
-        console.log(employee);
-        res.send(employee);
-        res.status(201);
-      }
+    await newEmployee.save((err, employee) => {
+      return res.send(OK, employee);
     });
   } catch (err) {
-    res.status(500);
+    res.sendStatus(INTERNAL_SERVER_ERROR);
   }
 };
 
 const updateEmployeeDetails = async (req, res) => {
   try {
-    Employee.findOneAndUpdate(
+    await Employee.findOneAndUpdate(
       {
         _id: req.params.id,
       },
       { $set: { name: req.body.name } },
       { upsert: true },
-      function (err, newEmployee) {
-        if (err) {
-          res.send('error updating ');
-        } else {
-          console.log(newEmployee);
-          res.send(newEmployee);
-          res.status(201);
-        }
+      (err, newEmployee) => {
+        return res.send(OK, newEmployee);
       }
     );
   } catch (err) {
-    res.status(500);
+    res.sendStatus(INTERNAL_SERVER_ERROR);
   }
 };
 
 const deleteEmployeeDetails = async (req, res) => {
   try {
-    Employee.findOneAndRemove(
+    await Employee.findOneAndRemove(
       {
         _id: req.params.id,
       },
-      function (err, employee) {
-        if (err) {
-          res.send('error removing');
-        } else {
-          console.log(employee);
-          res.status(200);
-        }
+      (err, employee) => {
+        res.status(OK);
       }
     );
   } catch (err) {
