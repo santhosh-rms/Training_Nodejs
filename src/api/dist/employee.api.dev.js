@@ -4,38 +4,37 @@ var Employee = require('../model/employee');
 
 var _require = require('http-status-codes'),
     OK = _require.OK,
-    INTERNAL_SERVER_ERROR = _require.INTERNAL_SERVER_ERROR,
-    BAD_REQUEST = _require.BAD_REQUEST;
+    INTERNAL_SERVER_ERROR = _require.INTERNAL_SERVER_ERROR;
 
 var getEmployeeDetails = function getEmployeeDetails(req, res) {
+  var getEmployee;
   return regeneratorRuntime.async(function getEmployeeDetails$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
           _context.prev = 0;
           _context.next = 3;
-          return regeneratorRuntime.awrap(Employee.find({}).exec(function (err, employees) {
-            return res.send(OK, employees);
-          }));
+          return regeneratorRuntime.awrap(Employee.find());
 
         case 3:
-          _context.next = 8;
-          break;
+          getEmployee = _context.sent;
+          return _context.abrupt("return", res.send(OK, getEmployee));
 
-        case 5:
-          _context.prev = 5;
+        case 7:
+          _context.prev = 7;
           _context.t0 = _context["catch"](0);
           res.sendStatus(INTERNAL_SERVER_ERROR);
 
-        case 8:
+        case 10:
         case "end":
           return _context.stop();
       }
     }
-  }, null, null, [[0, 5]]);
+  }, null, null, [[0, 7]]);
 };
 
 var getEmployeeDetailsPassingID = function getEmployeeDetailsPassingID(req, res) {
+  var getSpecificEmployee;
   return regeneratorRuntime.async(function getEmployeeDetailsPassingID$(_context2) {
     while (1) {
       switch (_context2.prev = _context2.next) {
@@ -44,29 +43,27 @@ var getEmployeeDetailsPassingID = function getEmployeeDetailsPassingID(req, res)
           _context2.next = 3;
           return regeneratorRuntime.awrap(Employee.findOne({
             _id: req.params.id
-          }).exec(function (err, employees) {
-            return res.send(OK, employees);
           }));
 
         case 3:
-          _context2.next = 8;
-          break;
+          getSpecificEmployee = _context2.sent;
+          return _context2.abrupt("return", res.send(OK, getSpecificEmployee));
 
-        case 5:
-          _context2.prev = 5;
+        case 7:
+          _context2.prev = 7;
           _context2.t0 = _context2["catch"](0);
           res.sendStatus(INTERNAL_SERVER_ERROR);
 
-        case 8:
+        case 10:
         case "end":
           return _context2.stop();
       }
     }
-  }, null, null, [[0, 5]]);
+  }, null, null, [[0, 7]]);
 };
 
 var postEmployeeDetails = function postEmployeeDetails(req, res) {
-  var newEmployee;
+  var newEmployee, getEmployee;
   return regeneratorRuntime.async(function postEmployeeDetails$(_context3) {
     while (1) {
       switch (_context3.prev = _context3.next) {
@@ -81,28 +78,27 @@ var postEmployeeDetails = function postEmployeeDetails(req, res) {
           newEmployee.role = req.body.role;
           newEmployee.phoneNumber = req.body.phoneNumber;
           _context3.next = 9;
-          return regeneratorRuntime.awrap(newEmployee.save(function (err, employee) {
-            return res.send(OK, employee);
-          }));
+          return regeneratorRuntime.awrap(newEmployee.save());
 
         case 9:
-          _context3.next = 14;
-          break;
+          getEmployee = _context3.sent;
+          return _context3.abrupt("return", res.send(OK, getEmployee));
 
-        case 11:
-          _context3.prev = 11;
+        case 13:
+          _context3.prev = 13;
           _context3.t0 = _context3["catch"](0);
           res.sendStatus(INTERNAL_SERVER_ERROR);
 
-        case 14:
+        case 16:
         case "end":
           return _context3.stop();
       }
     }
-  }, null, null, [[0, 11]]);
+  }, null, null, [[0, 13]]);
 };
 
 var updateEmployeeDetails = function updateEmployeeDetails(req, res) {
+  var getEmployee;
   return regeneratorRuntime.async(function updateEmployeeDetails$(_context4) {
     while (1) {
       switch (_context4.prev = _context4.next) {
@@ -117,25 +113,23 @@ var updateEmployeeDetails = function updateEmployeeDetails(req, res) {
             }
           }, {
             upsert: true
-          }, function (err, newEmployee) {
-            return res.send(OK, newEmployee);
           }));
 
         case 3:
-          _context4.next = 8;
-          break;
+          getEmployee = _context4.sent;
+          return _context4.abrupt("return", res.send(OK, getEmployee));
 
-        case 5:
-          _context4.prev = 5;
+        case 7:
+          _context4.prev = 7;
           _context4.t0 = _context4["catch"](0);
           res.sendStatus(INTERNAL_SERVER_ERROR);
 
-        case 8:
+        case 10:
         case "end":
           return _context4.stop();
       }
     }
-  }, null, null, [[0, 5]]);
+  }, null, null, [[0, 7]]);
 };
 
 var deleteEmployeeDetails = function deleteEmployeeDetails(req, res) {
