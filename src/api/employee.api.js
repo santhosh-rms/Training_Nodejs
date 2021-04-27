@@ -45,23 +45,6 @@ const signupUser = async (req, res) => {
   }
 };
 
-// const adminUser = async (req, res) => {
-//   try {
-//     res.send('Admin user Only');
-//   } catch {
-//     res.sendStatus(INTERNAL_SERVER_ERROR);
-//   }
-// };
-
-// const getEmployeeDetails = (req, res) => {
-//   const empDetails = new Promise((resolve, reject) => {
-//     resolve(Employee.find());
-//   });
-//   empDetails.then((response) => {
-//     return res.send(OK, response);
-//   });
-// };
-
 const getEmployeeDetails = async (req, res) => {
   try {
     const getEmployee = await Employee.find();
@@ -133,5 +116,4 @@ module.exports = {
   deleteEmployeeDetails,
   signupUser,
   signinuser,
-  // adminUser
 };

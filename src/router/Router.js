@@ -26,15 +26,8 @@ router.get('/protected',authVerify,(req, res) => {
   }
 });
 
-
-// router.route('/Signup').get((req, res) => {
-//   console.log('After Middleware');
-//   res.send('happy to be here');
-// });
-
 router.route('/Signup').post(signupUser);
 router.route('/signin').post(signinuser);
-// router.route('/protected').get(authVerify,adminUser);
 router.route('/employees').get(getEmployeeDetails);
 router.route('/employees/:id').get(getEmployeeDetailsPassingID);
 router.route('/employee').post(postEmployeeDetails);
